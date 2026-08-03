@@ -12,7 +12,7 @@ const tripsList = async(req, res) => {
     { //Database returned no data
         return res
                 .status(404)
-                .json(err)
+                .json({ message: 'Trips not found' });
     } else { //return resulting trip list
         return res
             .status(200)
@@ -26,11 +26,11 @@ const tripsFindByCode = async(req, res) => {
         .exec();
 
 
-    if(!q)
+    if(!q || q.length === 0)
     { //Database returned no data
         return res
                 .status(404)
-                .json(err)
+                .json({ message: 'Trip not found' });
     } else { //return resulting trip list
         return res
             .status(200)
