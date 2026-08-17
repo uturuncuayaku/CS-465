@@ -6,7 +6,7 @@
     <p class="card-text text-truncate-custom flex-grow-1" [innerHTML]="trip.description"></p>
     <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
       <span class="badge bg-success fs-6">{{ trip.perPerson }}</span>
-      <button class="btn btn-warning btn-sm font-weight-bold" (click)="editTrip(trip)">Edit Trip</button>
+      <button *ngIf="isLoggedIn()" class="btn btn-warning btn-sm font-weight-bold" (click)="editTrip(trip)">Edit Trip</button>
     </div>
   </div>
 </div>

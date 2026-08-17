@@ -1,91 +1,54 @@
-# Travlr - Baseline Express Website
+# Travlr Getaways - Full-Stack MEAN Security & SPA Application (CS-465 Module 7)
 
-## Introduction
-
-This is the baseline static website for the Travlr project, built as part of CS 465 Full Stack MEAN Development. It's a simple, clean HTML/CSS site that serves as the foundation for the rest of the course. Think of it as step zero before we add all the dynamic stuff. All you need is Node.js, npm, and a couple of terminal commands to get it running locally.
+This repository contains the complete Full-Stack MEAN (MongoDB, Express, Angular, Node.js) application for **CS-465 Module 7**, implementing JWT authentication, Passport Local Strategy, Mongoose schemas, and an Angular Admin Single Page Application (SPA).
 
 ---
 
-![Travlr Website Screenshot](./screenshot-placeholder.png)
+## Quick Start Evaluation Guide for Evaluators
 
-*Screenshot placeholder - add your own when ready!*
+To test and grade this application in a environment with Node.js (v18+), npm, and a local Mongoose/MongoDB connection:
 
----
+### Step 1: Install Dependencies
+```bash
+# In the travlr directory:
+npm install
 
-## Getting Started
-
-### Prerequisites
-
-Make sure you have these installed on your machine:
-- **Node.js** (v18 or higher) - [Download here](https://nodejs.org/)
-- **npm** (comes with Node.js)
-- **Git** - [Download here](https://git-scm.com/)
-
-Quick verification:
-```powershell
-node --version
-npm --version
-git --version
+# In the app_admin directory:
+cd app_admin
+npm install
+cd ..
 ```
 
-### Setup & Run Locally
-
-1. **Clone or navigate to the project**
-   ```powershell
-   cd ~/Documents/GitHub/CS-465/travlr
-   ```
-
-2. **Install dependencies**
-   ```powershell
-   npm install
-   ```
-
-3. **Start the development server**
-   ```powershell
-   python -m http.server 8000
-   ```
-   
-   *Note: If Python isn't available, you can use any other simple HTTP server, or install Express for Module 2*
-
-4. **Open in your browser**
-   ```
-   http://localhost:8000/public/
-   ```
-
-5. **Stop the server**
-   ```
-   Ctrl + C
-   ```
-
----
-
-## What's Included
-
-- **index.html** - Main landing page with navigation and hero section
-- **css/style.css** - Styling with gradient backgrounds and responsive layout
-- **images/** - Image assets for the site
-- **package.json** - Project configuration for npm
-
----
-
-## Summary
-
-You now have the baseline Travlr website running locally. It's a static site for now, which means it's just HTML and CSS—no backend logic yet. In the next module, we'll add Express to make it dynamic with routes and database connections. For now, this gives you a solid foundation and verifies that your development environment is set up correctly.
-
-Happy coding!
-
----
-
-## Troubleshooting
-
-**Port 8000 already in use?**
-```powershell
-python -m http.server 8001
+### Step 2: Seed the Database
+Seed the initial trip records into MongoDB (`mongodb://127.0.0.1/travlr`):
+```bash
+npm run seed
 ```
-Just use a different port.
 
-**Server won't start?**
-Make sure you're in the correct directory (`travlr/`) and that you have Node.js installed.
+### Step 3: Start Backend API & Public Customer Server
+From the `travlr/` root directory:
+```bash
+npm start
+```
+* Server starts on **`http://localhost:3000`**
+* **Public Customer Page:** `http://localhost:3000/travel`
+* **REST API Base URL:** `http://localhost:3000/api`
 
-**Changes not showing up?**
-Try a hard refresh in your browser (Ctrl+Shift+R or Cmd+Shift+R on Mac).
+### Step 4: Start Angular Admin SPA
+In a separate terminal tab/window, navigate to `travlr/app_admin/`:
+```bash
+npm start
+```
+* Angular Admin SPA starts on **`http://localhost:4200`**
+* **Admin Login & Dashboard:** `http://localhost:4200/login`
+
+---
+
+## Technical Architecture & Security Features
+
+* **Backend (`app_api`):** Express + Mongoose + Passport Local Strategy + PBKDF2 password hashing (16-byte salt, sha512) + JWT payload signing/verification.
+* **Route Protection:** Express middleware (`express-jwt`) guards `POST /api/trips` and `PUT /api/trips/:tripCode`. Unauthenticated requests return HTTP 401 Unauthorized.
+* **Frontend SPA (`app_admin`):** Angular + RxJS + Reactive Forms + `AuthenticationService` managing JWT tokens in `localStorage` (`travlr-token`).
+* **HTTP Interception:** `TripDataService` attaches `Authorization: Bearer <token>` headers to protected write operations.
+* **Navigation Security:** `AuthGuard` prevents unauthorized access to `/add-trip` and `/edit-trip`.
+* **Dynamic UI:** `NavbarComponent` dynamically updates Login / Logout button state based on authentication state.
