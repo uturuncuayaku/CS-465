@@ -1,3 +1,50 @@
+# Final Journal Entry
+## Journal Entry: Angular SPA Architecture, Functionality, and Testing
+
+Working on the Travlr Getaways project helped me understand the difference between a traditional server-rendered web application and a single-page application (SPA). The customer-facing side of the application uses Express with Handlebars to render HTML pages on the server. The administrator side is different because it uses Angular to create a client-side application that communicates with the same Express/Node.js backend and MongoDB database.
+
+### Angular Project Structure vs. Express HTML
+
+The Angular project is structured more around components and client-side logic than the Express customer-facing application. With Express and Handlebars, the server is responsible for receiving the request, processing it, and sending an HTML page back to the browser. The templates are organized around pages and views, and Express controls much of the flow.
+
+Angular breaks the application into reusable components. Instead of having the server generate an entirely new HTML page for every request, Angular loads the application and then uses components, services, routing, and data binding to change what the user sees. This makes the administrator application feel more like an actual application rather than a collection of separate web pages.
+
+The Angular application also communicates with the API directly. For example, the administrator can retrieve the travel information from the backend, display it in an Angular component, and then send changes back through an API request. The backend still handles the database operations through Node.js, Express, Mongoose, and MongoDB, but Angular is responsible for much more of the user interface logic.
+
+### Advantages and Disadvantages of an SPA
+
+One of the biggest advantages of an SPA is that the page does not have to completely reload every time the user performs an operation. Angular can update a component when data changes, which makes the application feel faster and more responsive. Client-side routing also allows the user to move between different parts of the administrator application without constantly requesting completely new HTML pages.
+
+Another advantage is reusability. Angular components and services can be used in multiple places instead of duplicating the same HTML and JavaScript logic. Two-way data binding is also useful for administration because the information displayed in a form can be connected directly to the application's data.
+
+The disadvantage is that an SPA is more complicated than a basic web application. There are more moving parts to keep track of, including Angular components, services, routing, API requests, authentication, and the Express backend. Debugging can also be more difficult because a problem could be in the Angular code, the API, the Express server, or the database.
+
+A simple web application interaction might involve submitting a form and waiting for the server to return a completely new page. An SPA can make the same interaction without leaving the current page. In the Travlr application, this gives the administrator the ability to manage travel information through the Angular interface while communicating with the API in the background.
+
+### Testing the SPA and API
+
+Testing the SPA means testing more than just whether the Angular page looks correct. I need to make sure the Angular application can actually communicate with the Express API and that the API is correctly communicating with MongoDB.
+
+For a GET request, I can start by making sure the backend is running and the database contains the expected travel data. The Angular application then makes the API request and receives the data. I can verify that the information displayed in the administrator interface matches what is actually stored in MongoDB.
+
+For a PUT request, I can change a piece of travel information through the Angular administrator interface and submit the update. The API should receive the request, identify the correct database record, update it through Mongoose, and return the appropriate response. I can then verify the result by retrieving the data again and making sure the change persisted in MongoDB.
+
+There are several places where this process could fail. The Angular application could have the wrong API URL, the API route could be incorrect, or the request could contain data in the wrong format. The backend could also return an HTTP error if a record does not exist or if validation fails. There could also be problems connecting to MongoDB. On the client side, I would expect errors such as a failed HTTP request, incorrect data binding, or a component not updating when the API response is received.
+
+One thing I found useful about this project is that testing the application also means thinking about the entire path of the data:
+
+**Angular component → API request → Express route → Mongoose → MongoDB → response → Angular component**
+
+If something goes wrong, I can use that path to narrow down where the problem is occurring instead of assuming the problem is with Angular itself.
+
+### Questions for Future SPA Projects
+
+One question I still have is how much application logic should really belong in Angular versus the backend. It is easy to put more functionality into the client because Angular makes it convenient, but I want to better understand where the boundary should be between client-side logic and server-side business logic.
+
+I also want to learn more about handling authentication and authorization in a larger SPA. The administrator application needs to communicate with protected backend functionality, so understanding how to securely maintain a user's session and prevent unauthorized API requests will be important in future projects.
+
+Finally, I would like to get better at testing SPAs systematically. I understand how to manually test GET and PUT operations and follow the data from Angular through the API to MongoDB, but I want to learn more about automated testing for Angular components, services, and API interactions. That would make it easier to catch problems before they reach the user.
+
 # Travlr Getaways - Full Stack Application & Angular SPA (Module 6)
 
 ## Introduction
